@@ -20,6 +20,7 @@ global adjclose_final
 global l
 global low52_final
 global high52_final
+global stype
 close_final = []
 open_final = []
 low_final = []
@@ -30,9 +31,8 @@ high52_final = []
 low52_final = []
 l = 2
 # historical average functions
-def close(thing):
+def close(thing, stype, vari):
     global closemonth
-    global close_final
     global ticker
     global year
     global month
@@ -55,14 +55,15 @@ def close(thing):
     stocklistinfo.columns
     while i <= 1000:
         temp = i*-1
-        close = stocklistinfo['Close'][temp]
+        close = stocklistinfo[stype][temp]
         store = close
         store = float(store)
         closemonth.insert(len(closemonth),store)
         i += 1
     pull = thing
-    close_final.insert(len(close_final),closemonth[pull])
-    print(close_final)
+    vari.insert(len(vari),closemonth[pull])
+    return str(round(vari[len(vari)-1], 3))
+    print(vari)
 def open(thing):
     global open_final
     global ticker
@@ -328,7 +329,7 @@ class App(tk.Tk):
     def go(self):
         global l
         global ticker
-        global close_final
+
         global open_final
         global high_final
         global low_final
@@ -341,7 +342,7 @@ class App(tk.Tk):
         datein = int(datein)
         ticker = stock_entry.get()
         ticker = str(ticker)
-        close(datein)
+
         open(datein)
         high(datein)
         low(datein)
@@ -350,7 +351,8 @@ class App(tk.Tk):
         high52()
         low52()
 
-        closetemp = str(round(close_final[len(close_final)-1], 3))
+        closetemp = close(datein, "Close", close_final)
+        print(close_final)
         opentemp = str(round(open_final[len(open_final)-1], 3))
         hightemp = str(round(high_final[len(high_final)-1], 3))
         lowtemp = str(round(low_final[len(low_final)-1], 3))
