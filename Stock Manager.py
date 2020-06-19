@@ -8,8 +8,9 @@ from datetime import date
 import pandas_datareader as pdr
 import datetime
 from datetime import date
-ticker = "AAPL"
+
 def close(thing):
+    global ticker
     global year
     global month
     global day
@@ -44,18 +45,18 @@ def close(thing):
 
 
 
-
-ticker = "AAPL"
 class App(tk.Tk):
 
 
 
     def go(self):
+        global ticker
         datein = date_entry.get()
         datein = str(datein)
         datein = int(datein)
         ticker = stock_entry.get()
         ticker = str(ticker)
+        print(ticker)
         close(datein)
     def __init__(self):
         global date_entry
