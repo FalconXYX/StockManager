@@ -11,12 +11,7 @@ import pandas_datareader as pdr
 import datetime
 import matplotlib.pyplot as plt
 from datetime import date
-global close_final
-global open_final
-global high_final
-global low_final
-global volume_final
-global adjclose_final
+
 global l
 global low52_final
 global high52_final
@@ -53,7 +48,7 @@ def close(thing, stype, vari):
     stocklistinfo.index
     today = date.today()
     stocklistinfo.columns
-    while i <= 1000:
+    while i <= thing+1:
         temp = i*-1
         close = stocklistinfo[stype][temp]
         store = close
@@ -64,168 +59,6 @@ def close(thing, stype, vari):
     vari.insert(len(vari),closemonth[pull])
     return str(round(vari[len(vari)-1], 3))
     print(vari)
-def open(thing):
-    global open_final
-    global ticker
-    global year
-    global month
-    global day
-    closemonth = []
-    today = datetime.date.today()
-    today = str(today)
-    day = today[-2:]
-    year, month, lol  = today.split('-')
-    year = int(year)
-    month = int(month)
-    day = int(day)
-    i = 1
-    stocklistinfo = pdr.get_data_yahoo(ticker,
-
-                              end=datetime.datetime(year, month, day),
-                             )
-    stocklistinfo.index
-    today = date.today()
-    stocklistinfo.columns
-    while i <= 1000:
-        temp = i*-1
-        close = stocklistinfo['Open'][temp]
-        store = close
-        store = float(store)
-        closemonth.insert(len(closemonth),store)
-        i += 1
-    pull = thing
-    open_final = []
-    open_final.insert(len(open_final), closemonth[pull])
-def high(thing):
-    global high_final
-    global ticker
-    global year
-    global month
-    global day
-    closemonth = []
-    today = datetime.date.today()
-    today = str(today)
-    day = today[-2:]
-    year, month, lol  = today.split('-')
-    year = int(year)
-    month = int(month)
-    day = int(day)
-    i = 1
-    l =2
-    stocklistinfo = pdr.get_data_yahoo(ticker,
-
-                              end=datetime.datetime(year, month, day),
-                             )
-    stocklistinfo.index
-    today = date.today()
-    stocklistinfo.columns
-    while i <= 1000:
-        temp = i*-1
-        close = stocklistinfo['High'][temp]
-        store = close
-        store = float(store)
-        closemonth.insert(len(closemonth),store)
-        i += 1
-    pull = thing
-    high_final = []
-    high_final.insert(len(high_final), closemonth[pull])
-def low(thing):
-    global low_final
-    global ticker
-    global year
-    global month
-    global day
-    closemonth = []
-    today = datetime.date.today()
-    today = str(today)
-    day = today[-2:]
-    year, month, lol  = today.split('-')
-    year = int(year)
-    month = int(month)
-    day = int(day)
-    i = 1
-    stocklistinfo = pdr.get_data_yahoo(ticker,
-
-                              end=datetime.datetime(year, month, day),
-                             )
-    stocklistinfo.index
-    today = date.today()
-    stocklistinfo.columns
-    while i <= 1000:
-        temp = i*-1
-        close = stocklistinfo['Low'][temp]
-        store = close
-        store = float(store)
-        closemonth.insert(len(closemonth),store)
-        i += 1
-    pull = thing
-    low_final = closemonth[pull]
-    low_final = []
-    low_final.insert(len(low_final), closemonth[pull])
-def volume(thing):
-    global volume_final
-    global ticker
-    global year
-    global month
-    global day
-    closemonth = []
-    today = datetime.date.today()
-    today = str(today)
-    day = today[-2:]
-    year, month, lol  = today.split('-')
-    year = int(year)
-    month = int(month)
-    day = int(day)
-    i = 1
-    stocklistinfo = pdr.get_data_yahoo(ticker,
-
-                              end=datetime.datetime(year, month, day),
-                             )
-    stocklistinfo.index
-    today = date.today()
-    stocklistinfo.columns
-    closemonth = []
-    while i <= 1000:
-        temp = i*-1
-        close = stocklistinfo['Volume'][temp]
-        store = close
-        store = float(store)
-        closemonth.insert(len(closemonth),store)
-        i += 1
-    pull = thing
-    volume_final.insert(len(volume_final), closemonth[pull])
-def adjclose(thing):
-    global adjclose_final
-    global ticker
-    global year
-    global month
-    global day
-    closemonth = []
-    today = datetime.date.today()
-    today = str(today)
-    day = today[-2:]
-    year, month, lol  = today.split('-')
-    year = int(year)
-    month = int(month)
-    day = int(day)
-    i = 1
-    stocklistinfo = pdr.get_data_yahoo(ticker,
-
-                              end=datetime.datetime(year, month, day),
-                             )
-    stocklistinfo.index
-    today = date.today()
-    stocklistinfo.columns
-    closemonth = []
-    while i <= 1000:
-        temp = i*-1
-        close = stocklistinfo['Adj Close'][temp]
-        store = close
-        store = float(store)
-        closemonth.insert(len(closemonth),store)
-        i += 1
-    pull = thing
-    adjclose_final.insert(len(adjclose_final), closemonth[pull])
 def high52():
     global ticker
     global year
@@ -329,35 +162,27 @@ class App(tk.Tk):
     def go(self):
         global l
         global ticker
-
-        global open_final
-        global high_final
-        global low_final
-        global volume_final
-        global adjclose_final
-        global high52_final
-        global low52_final
         datein = date_entry.get()
         datein = str(datein)
         datein = int(datein)
         ticker = stock_entry.get()
         ticker = str(ticker)
 
-        open(datein)
-        high(datein)
-        low(datein)
-        volume(datein)
-        adjclose(datein)
         high52()
         low52()
 
         closetemp = close(datein, "Close", close_final)
         print(close_final)
-        opentemp = str(round(open_final[len(open_final)-1], 3))
-        hightemp = str(round(high_final[len(high_final)-1], 3))
-        lowtemp = str(round(low_final[len(low_final)-1], 3))
-        volumetemp = str(round(volume_final[len(volume_final)-1], 3))
-        adjclosetemp = str(round(adjclose_final[len(adjclose_final)-1], 3))
+        opentemp = close(datein, "Open", open_final)
+        print(open_final)
+        hightemp = close(datein, "High", high_final)
+        print(high_final)
+        lowtemp = close(datein, "Low", low_final)
+        print(low_final)
+        volumetemp = close(datein, "Volume", volume_final)
+        print(volume_final)
+        adjclosetemp = close(datein, "Adj Close", adjclose_final)
+        print(adjclose_final)
         h52temp = str(round(high52_final[len(high52_final)-1], 3))
         l52temp = str(round(low52_final[len(low52_final)-1], 3))
 
@@ -400,7 +225,7 @@ class App(tk.Tk):
         datelabel = tk.Label(self, text="Enter Days Ago:",fg="Black",font=("Courier", 12))
         stocklabel = tk.Label(self, text="Enter Stock Name:",fg="Black",font=("Courier", 12))
         typelabel = tk.Label(self, text="Enter Type:",fg="Black",font=("Courier", 12))
-        stocklabel2 = tk.Label(self, text="Enter Stock Name:",fg="Black",font=("Courier", 12))
+        stocklabel2 = tk.Label(self, text="Enter Stock Names:",fg="Black",font=("Courier", 12))
         Lb1 = Listbox(self, width=130, height=34, yscrollcommand=True)
         start = "Stock           Open           Low            High            Close            Ajusted Close            Volume          W52 High         W52 Low"
         Lb1.insert(1, start)
@@ -414,7 +239,7 @@ class App(tk.Tk):
         startlabelcal.place(x=1450, y=40)
         endlabelcal.place(x=1450, y=80)
         button.place(x=150, y=80)
-        button2.place(x=1600, y=200)
+        button2.place(x=1600, y=230)
         date_entry.place(x=200, y=10)
         stock_entry.place(x=200, y=35)
         datelabel.place(x=0, y=10)
@@ -425,15 +250,5 @@ class App(tk.Tk):
         type_entry.place(x=1650, y=120)
         stock_entry2.place(x=1650, y=160)
         stock_entry3.place(x=1650, y=200)
-
-
-
-
-
-
-
-
-
-
 w = App()
 w.mainloop()
