@@ -8,6 +8,18 @@ from datetime import date
 import pandas_datareader as pdr
 import datetime
 from datetime import date
+global close_final
+global open_final
+global high_final
+global low_final
+global volume_final
+global adjclose_final
+close_final = []
+open_final = []
+low_final = []
+high_final = []
+volume_final = []
+adjclose_final = []
 
 def close(thing):
     global close_final
@@ -39,8 +51,7 @@ def close(thing):
         closemonth.insert(len(closemonth),store)
         i += 1
     pull = thing
-    close_final = closemonth[pull]
-
+    close_final.insert(len(close_final),closemonth[pull])
     print(close_final)
 def open(thing):
     global open_final
@@ -72,9 +83,8 @@ def open(thing):
         closemonth.insert(len(closemonth),store)
         i += 1
     pull = thing
-    open_final = closemonth[pull]
-
-    print(open_final)
+    open_final = []
+    open_final.insert(len(open_final), closemonth[pull])
 def high(thing):
     global high_final
     global ticker
@@ -105,9 +115,8 @@ def high(thing):
         closemonth.insert(len(closemonth),store)
         i += 1
     pull = thing
-    high_final = closemonth[pull]
-
-    print(high_final)
+    high_final = []
+    high_final.insert(len(high_final), closemonth[pull])
 def low(thing):
     global low_final
     global ticker
@@ -139,8 +148,8 @@ def low(thing):
         i += 1
     pull = thing
     low_final = closemonth[pull]
-
-    print(low_final)
+    low_final = []
+    low_final.insert(len(low_final), closemonth[pull])
 def volume(thing):
     global volume_final
     global ticker
@@ -171,9 +180,8 @@ def volume(thing):
         closemonth.insert(len(closemonth),store)
         i += 1
     pull = thing
-    volume_final = closemonth[pull]
-
-    print(volume_final)
+    volume_final = []
+    volume_final.insert(len(volume_final), closemonth[pull])
 def adjclose(thing):
     global adjclose_final
     global ticker
@@ -204,9 +212,9 @@ def adjclose(thing):
         closemonth.insert(len(closemonth),store)
         i += 1
     pull = thing
-    adjclose_final = closemonth[pull]
+    adjclose_final = []
+    adjclose_final.insert(len(adjclose_final), closemonth[pull])
 
-    print(adjclose_final)
 class App(tk.Tk):
 
 
@@ -224,40 +232,40 @@ class App(tk.Tk):
         datein = int(datein)
         ticker = stock_entry.get()
         ticker = str(ticker)
-        print(ticker)
         close(datein)
         open(datein)
         high(datein)
         low(datein)
         volume(datein)
         adjclose(datein)
-        close_final = str(close_final)
-        open_final = str(open_final)
-        high_final = str(high_final)
-        low_final = str(low_final)
-        volume_final = str(volume_final)
-        adjclose_final = str(adjclose_final)
+        closetemp = str(close_final[len(close_final)-1])
+        opentemp = str(open_final[len(open_final)-1])
+        hightemp = str(high_final[len(high_final)-1])
+        lowtemp = str(low_final[len(low_final)-1])
+        volumetemp = str(volume_final[len(volume_final)-1])
+        adjclosetemp = str(adjclose_final[len(adjclose_final)-1])
 
-        start = "Stock                Open                                 Low                               High                             Close                          Ajusted Close                       Volume"
-        row = ticker + "        " + open_final + "        " + low_final + "        " + high_final + "        " + close_final + "        " + adjclose_final + "         " + volume_final
-        Lb1.insert(1, start)
+
+        row = ticker + "        " + opentemp + "        " + lowtemp + "        " + hightemp + "        " + closetemp + "        " + adjclosetemp + "         " + volumetemp
         Lb1.insert(2, row)
 
     def __init__(self):
         global date_entry
         global stock_entry
         global Lb1
-        selfdow_x = 1280
-        selfdow_y = 700
+        selfdow_x = 1780
+        selfdow_y = 1700
         tk.Tk.__init__(self)
         self.title("Stock Manager")
-        self.geometry("970x920")
+        self.geometry("1920x1080")
         button = tk.Button(self, text="Submit", command=self.go)
         date_entry = tk.Entry(self)
         stock_entry = tk.Entry(self)
         datelabel = tk.Label(self, text="Enter Days Ago:",fg="Black",font=("Courier", 12))
         stocklabel = tk.Label(self, text="Enter Stock Name:",fg="Black",font=("Courier", 12))
         Lb1 = Listbox(self, width=130, height=34)
+        start = "Stock                Open                                 Low                               High                             Close                          Ajusted Close                       Volume"
+        Lb1.insert(1, start)
         button.place(x=150, y=80)
         date_entry.place(x=200, y=10)
         stock_entry.place(x=200, y=35)
