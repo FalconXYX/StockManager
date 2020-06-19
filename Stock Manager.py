@@ -218,6 +218,7 @@ class App(tk.Tk):
         global high_final
         global low_final
         global volume_final
+        global adjclose_final
         datein = date_entry.get()
         datein = str(datein)
         datein = int(datein)
@@ -230,27 +231,33 @@ class App(tk.Tk):
         low(datein)
         volume(datein)
         adjclose(datein)
-        Lb1.insert(1, close_final)
-        Lb1.insert(2, open_final)
-        Lb1.insert(3, high_final)
-        Lb1.insert(4, low_final)
-        Lb1.insert(5, volume_final)
-        Lb1.insert(6, adjclose_final)
+        close_final = str(close_final)
+        open_final = str(open_final)
+        high_final = str(high_final)
+        low_final = str(low_final)
+        volume_final = str(volume_final)
+        adjclose_final = str(adjclose_final)
+
+        start = "Stock                Open                                 Low                               High                             Close                          Ajusted Close                       Volume"
+        row = ticker + "        " + open_final + "        " + low_final + "        " + high_final + "        " + close_final + "        " + adjclose_final + "         " + volume_final
+        Lb1.insert(1, start)
+        Lb1.insert(2, row)
+
     def __init__(self):
         global date_entry
         global stock_entry
         global Lb1
         selfdow_x = 1280
-        selfdow_y = 720
+        selfdow_y = 700
         tk.Tk.__init__(self)
         self.title("Stock Manager")
-        self.geometry("720x720")
+        self.geometry("970x920")
         button = tk.Button(self, text="Submit", command=self.go)
         date_entry = tk.Entry(self)
         stock_entry = tk.Entry(self)
         datelabel = tk.Label(self, text="Enter Days Ago:",fg="Black",font=("Courier", 12))
         stocklabel = tk.Label(self, text="Enter Stock Name:",fg="Black",font=("Courier", 12))
-        Lb1 = Listbox(self, width=80, height=34)
+        Lb1 = Listbox(self, width=130, height=34)
         button.place(x=150, y=80)
         date_entry.place(x=200, y=10)
         stock_entry.place(x=200, y=35)
