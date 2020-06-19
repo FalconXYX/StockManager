@@ -238,15 +238,16 @@ class App(tk.Tk):
         low(datein)
         volume(datein)
         adjclose(datein)
-        closetemp = str(close_final[len(close_final)-1])
-        opentemp = str(open_final[len(open_final)-1])
-        hightemp = str(high_final[len(high_final)-1])
-        lowtemp = str(low_final[len(low_final)-1])
-        volumetemp = str(volume_final[len(volume_final)-1])
-        adjclosetemp = str(adjclose_final[len(adjclose_final)-1])
+
+        closetemp = str(round(close_final[len(close_final)-1], 3))
+        opentemp = str(round(open_final[len(open_final)-1], 3))
+        hightemp = str(round(high_final[len(high_final)-1], 3))
+        lowtemp = str(round(low_final[len(low_final)-1], 3))
+        volumetemp = str(round(volume_final[len(volume_final)-1], 3))
+        adjclosetemp = str(round(adjclose_final[len(adjclose_final)-1], 3))
 
 
-        row = ticker + "        " + opentemp + "        " + lowtemp + "        " + hightemp + "        " + closetemp + "        " + adjclosetemp + "         " + volumetemp
+        row = ticker + "              " + opentemp + "              " + lowtemp + "              " + hightemp + "              " + closetemp + "              " + adjclosetemp + "                  " + volumetemp
         Lb1.insert(2, row)
 
     def __init__(self):
@@ -263,8 +264,8 @@ class App(tk.Tk):
         stock_entry = tk.Entry(self)
         datelabel = tk.Label(self, text="Enter Days Ago:",fg="Black",font=("Courier", 12))
         stocklabel = tk.Label(self, text="Enter Stock Name:",fg="Black",font=("Courier", 12))
-        Lb1 = Listbox(self, width=130, height=34)
-        start = "Stock                Open                                 Low                               High                             Close                          Ajusted Close                       Volume"
+        Lb1 = Listbox(self, width=130, height=34, yscrollcommand=True)
+        start = "Stock           Open           Low            High            Close            Ajusted Close            Volume"
         Lb1.insert(1, start)
         button.place(x=150, y=80)
         date_entry.place(x=200, y=10)
