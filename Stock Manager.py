@@ -15,7 +15,7 @@ from datetime import date
 global l
 global low52_final
 global high52_final
-global stype
+
 close_final = []
 open_final = []
 low_final = []
@@ -34,6 +34,7 @@ def close(thing, stype, vari):
     global day
     closemonth = []
     today = datetime.date.today()
+    t= datetime.date.today()
     today = str(today)
     day = today[-2:]
     year, month, lol  = today.split('-')
@@ -48,14 +49,15 @@ def close(thing, stype, vari):
     stocklistinfo.index
     today = date.today()
     stocklistinfo.columns
-    while i <= thing+1:
+    pull = (t-thing).days
+    while i <= pull+1:
         temp = i*-1
         close = stocklistinfo[stype][temp]
         store = close
         store = float(store)
         closemonth.insert(len(closemonth),store)
         i += 1
-    pull = thing
+
     vari.insert(len(vari),closemonth[pull])
     return str(round(vari[len(vari)-1], 3))
     print(vari)
@@ -92,6 +94,7 @@ def high52():
     closemonth.sort()
     pull = closemonth[-1]
     high52_final.insert(len(adjclose_final), pull)
+    return str(round(high52_final[len(high52_final)-1], 3))
 def low52():
     global ticker
     global year
@@ -125,6 +128,7 @@ def low52():
     closemonth.sort()
     pull = closemonth[1]
     low52_final.insert(len(adjclose_final), pull)
+    return str(round(low52_final[len(low52_final)-1], 3))
 
 # graph functions
 def infograph(type, stockname, stockname2):
@@ -162,14 +166,12 @@ class App(tk.Tk):
     def go(self):
         global l
         global ticker
-        datein = date_entry.get()
-        datein = str(datein)
-        datein = int(datein)
+        datein = cal.get_date()
+        print(datein)
         ticker = stock_entry.get()
         ticker = str(ticker)
 
-        high52()
-        low52()
+
 
         closetemp = close(datein, "Close", close_final)
         print(close_final)
@@ -183,8 +185,8 @@ class App(tk.Tk):
         print(volume_final)
         adjclosetemp = close(datein, "Adj Close", adjclose_final)
         print(adjclose_final)
-        h52temp = str(round(high52_final[len(high52_final)-1], 3))
-        l52temp = str(round(low52_final[len(low52_final)-1], 3))
+        h52temp = high52()
+        l52temp = low52()
 
 
 
@@ -202,6 +204,7 @@ class App(tk.Tk):
         if (tempstock2 != ""):
             infograph(temptype, tempstock, tempstock2)
     def __init__(self):
+        global cal
         global endcal
         global startcal
         global date_entry
@@ -222,13 +225,14 @@ class App(tk.Tk):
         type_entry = tk.Entry(self)
         stock_entry2 = tk.Entry(self)
         stock_entry3 = tk.Entry(self)
-        datelabel = tk.Label(self, text="Enter Days Ago:",fg="Black",font=("Courier", 12))
+        datelabel = tk.Label(self, text="Enter Date:",fg="Black",font=("Courier", 12))
         stocklabel = tk.Label(self, text="Enter Stock Name:",fg="Black",font=("Courier", 12))
         typelabel = tk.Label(self, text="Enter Type:",fg="Black",font=("Courier", 12))
         stocklabel2 = tk.Label(self, text="Enter Stock Names:",fg="Black",font=("Courier", 12))
         Lb1 = Listbox(self, width=130, height=34, yscrollcommand=True)
         start = "Stock           Open           Low            High            Close            Ajusted Close            Volume          W52 High         W52 Low"
         Lb1.insert(1, start)
+        cal = DateEntry(self, width=12, background='black', foreground='white', borderwidth=2)
         startcal = DateEntry(self, width=12, background='black', foreground='white', borderwidth=2)
         endcal = DateEntry(self, width=12, background='black', foreground='white', borderwidth=2)
         startlabelcal = tk.Label(self, text="Enter Start Date:",fg="Black",font=("Courier", 12))
@@ -240,7 +244,7 @@ class App(tk.Tk):
         endlabelcal.place(x=1450, y=80)
         button.place(x=150, y=80)
         button2.place(x=1600, y=230)
-        date_entry.place(x=200, y=10)
+        cal.place(x=200, y=10)
         stock_entry.place(x=200, y=35)
         datelabel.place(x=0, y=10)
         stocklabel.place(x=0, y=35)
