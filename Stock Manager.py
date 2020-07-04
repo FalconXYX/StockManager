@@ -192,15 +192,14 @@ class App(tk.Tk):
                 print(adjclosetemp)
         h52temp = high52()
         l52temp = low52()
-
+         print('The result is %s digits long.' % (len(str(prod))))
+         print('Took %s seconds to calculate.' % (endTime - startTime))
 
 
 
         row = ticker + "        " + opentemp + "              " + lowtemp + "              " + hightemp + "              " + closetemp + "              " + adjclosetemp + "                  " + volumetemp + "                 "+ h52temp + "                   " + l52temp
         Lb1.insert(l, row)
         l += 1
-        print('The result is %s digits long.' % (len(str(prod))))
-        print('Took %s seconds to calculate.' % (endTime - startTime))
     def graph(self):
         global type_entry
         global stock_entry2
