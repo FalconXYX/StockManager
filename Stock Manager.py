@@ -8,7 +8,7 @@ import pandas_datareader as pdr
 import datetime
 from datetime import date
 import pandas_datareader as pdr
-import datetime
+import datetime,time
 import matplotlib.pyplot as plt
 from datetime import date
 import concurrent.futures
@@ -192,8 +192,8 @@ class App(tk.Tk):
                 print(adjclosetemp)
         h52temp = high52()
         l52temp = low52()
-         print('The result is %s digits long.' % (len(str(prod))))
-         print('Took %s seconds to calculate.' % (endTime - startTime))
+        endTime = time.time()
+        print('Took %s seconds to calculate.' % (endTime - startTime))
 
 
 
