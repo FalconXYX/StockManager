@@ -11,7 +11,7 @@ import pandas_datareader as pdr
 import datetime
 import matplotlib.pyplot as plt
 from datetime import date
-
+import concurrent.futures
 global l
 global low52_final
 global high52_final
@@ -170,29 +170,37 @@ class App(tk.Tk):
         print(datein)
         ticker = stock_entry.get()
         ticker = str(ticker)
-
-
-
-        closetemp = close(datein, "Close", close_final)
-        print(close_final)
-        opentemp = close(datein, "Open", open_final)
-        print(open_final)
-        hightemp = close(datein, "High", high_final)
-        print(high_final)
-        lowtemp = close(datein, "Low", low_final)
-        print(low_final)
-        volumetemp = close(datein, "Volume", volume_final)
-        print(volume_final)
-        adjclosetemp = close(datein, "Adj Close", adjclose_final)
-        print(adjclose_final)
+        startTime = time.time()
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+                closefunction = executor.submit(close, datein, "Close", close_final)
+                closetemp = closefunction.result()
+                print(closetemp)
+                openfunction = executor.submit(close, datein, "Open", open_final)
+                opentemp = openfunction.result()
+                print(opentemp)
+                highfunction = executor.submit(close, datein, "High", high_final)
+                hightemp = highfunction.result()
+                print(hightemp)
+                lowfunction = executor.submit(close, datein, "Low", low_final)
+                lowtemp = openfunction.result()
+                print(lowtemp)
+                volumefunction = executor.submit(close, datein, "Volume", volume_final)
+                volumetemp = volumefunction.result()
+                print(volumetemp)
+                adjclosefunction = executor.submit(close, datein, "Adj Close", adjclose_final)
+                adjclosetemp = adjclosefunction.result()
+                print(adjclosetemp)
         h52temp = high52()
         l52temp = low52()
+
 
 
 
         row = ticker + "        " + opentemp + "              " + lowtemp + "              " + hightemp + "              " + closetemp + "              " + adjclosetemp + "                  " + volumetemp + "                 "+ h52temp + "                   " + l52temp
         Lb1.insert(l, row)
         l += 1
+        print('The result is %s digits long.' % (len(str(prod))))
+        print('Took %s seconds to calculate.' % (endTime - startTime))
     def graph(self):
         global type_entry
         global stock_entry2
